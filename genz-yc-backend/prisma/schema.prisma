@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  username      String         @unique
+  password      String?
+  bio           String?
+  builderScore  Int            @default(0)
+  isPremium     Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  authProviders AuthProvider[]
+  matchesAsA    Match[]        @relation("UserAMatches")
+  matchesAsB    Match[]        @relation("UserBMatches")
+}
+
+model AuthProvider {
+  id         String   @id @default(uuid())
+  userId     String
+  provider   String   // "google" | "github" | "linkedin"
+  providerId String?
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Match {
+  id        String   @id @default(uuid())
+  userAId   String
+  userBId   String
+  status    String   // "pending" | "accepted" | "rejected"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userA     User     @relation("UserAMatches", fields: [userAId], references: [id])
+  userB     User     @relation("UserBMatches", fields: [userBId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  matchId   String
+  senderId  String
+  text      String
+  createdAt DateTime @default(now())
+}
+
+model AiScore {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  score     Int
+  analysis  String
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  plan      String   // "free" | "premium"
+  stripeId  String?
+  expiresAt DateTime?
+}
