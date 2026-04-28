@@ -54,9 +54,10 @@ const AuthPage = () => {
         setPassword('');
       } else {
         if (data?.token) {
+          localStorage.setItem('authToken', data.token);
           localStorage.setItem('genzyc_auth_token', data.token);
         }
-        navigate('/dashboard');
+        navigate('/quiz');
       }
     } catch (authError) {
       const authMessage = authError instanceof Error ? authError.message : 'Authentication failed.';

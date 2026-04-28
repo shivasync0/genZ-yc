@@ -6,6 +6,7 @@ import AuthPage from './components/AuthPage';
 import Dashboard from './components/Dashboard';
 import ChatInterface from './components/ChatInterface';
 import OAuthCallback from './components/OAuthCallback';
+import FounderQuiz from './components/FounderQuiz';
 
 function App() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function App() {
           <Route path="/" element={<GenZYCLanding />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/oauth/callback" element={<OAuthCallback />} />
+          <Route path="/quiz" element={<FounderQuiz />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/chat" element={<ChatInterface />} />
         </Routes>

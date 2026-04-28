@@ -12,11 +12,12 @@ const OAuthCallback = () => {
     const message = params.get('message');
 
     if (status === 'success' && token) {
+      localStorage.setItem('authToken', token);
       localStorage.setItem('genzyc_auth_token', token);
       if (provider) {
         localStorage.setItem('genzyc_auth_provider', provider);
       }
-      navigate('/dashboard', { replace: true });
+      navigate('/quiz', { replace: true });
       return;
     }
 
