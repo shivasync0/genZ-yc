@@ -29,8 +29,10 @@ model AuthProvider {
   id         String   @id @default(uuid())
   userId     String
   provider   String   // "google" | "github" | "linkedin"
-  providerId String?
+  providerId String
   user       User     @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerId])
 }
 
 model Match {
