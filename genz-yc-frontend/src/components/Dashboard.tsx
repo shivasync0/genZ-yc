@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, Github, Star, GitMerge } from 'lucide-react';
+import { Check, X, Github, GitMerge } from 'lucide-react';
 
 const mockProfiles = [
   { id: 1, name: 'Alex Rivera', role: 'Full Stack Engineer', score: 92, bio: 'Ex-Stripe. Building highly scalable distributed systems.', github: 'alexr', skills: ['React', 'Rust', 'PostgreSQL'] },

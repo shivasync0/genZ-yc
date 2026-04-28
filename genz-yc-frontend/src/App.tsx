@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
-import NarrativeLanding from './components/NarrativeLanding';
+import GenZYCLanding from './components/GenZYCLanding';
 import AuthPage from './components/AuthPage';
 import Dashboard from './components/Dashboard';
 import ChatInterface from './components/ChatInterface';
@@ -9,13 +9,16 @@ import ChatInterface from './components/ChatInterface';
 function App() {
   const location = useLocation();
   const isAuthPage = location.pathname === '/auth';
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const isLandingPage = location.pathname === '/';
 
   useEffect(() => {
     if (isDarkMode) {
+      document.body.classList.add('dark-theme');
       document.body.classList.remove('light-theme');
     } else {
       document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
     }
   }, [isDarkMode]);
 
@@ -23,7 +26,7 @@ function App() {
 
   return (
     <div className="app-container">
-      {!isAuthPage && (
+      {(!isAuthPage && !isLandingPage) && (
         <nav className="glass-nav">
           <div className="nav-brand">GenZ YC.</div>
           <div className="nav-links">
@@ -43,7 +46,7 @@ function App() {
       
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<NarrativeLanding />} />
+          <Route path="/" element={<GenZYCLanding />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/chat" element={<ChatInterface />} />
