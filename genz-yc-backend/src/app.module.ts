@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AiScoringService } from './modules/ai-scoring/ai-scoring.service';
+import { AuthModule } from './modules/auth/auth.module';
 import { ChatGateway } from './modules/chat/chat.gateway';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
 // This is a placeholder module to bootstrap the application.
 // In a full implementation, you would import AuthModule, MatchingModule, PrismaModule, etc.
 
 @Module({
-  imports: [],
+  imports: [PrismaModule, AuthModule],
   controllers: [],
   providers: [AiScoringService, ChatGateway],
 })

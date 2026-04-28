@@ -255,6 +255,11 @@
   transition: all 0.2s;
 }
 
+.auth-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
 .auth-btn:hover {
   box-shadow: 0 6px 25px rgba(124, 92, 252, 0.5);
   transform: translateY(-1px);
@@ -303,6 +308,18 @@
 .auth-social-btn svg {
   width: 20px;
   height: 20px;
+}
+
+.auth-error {
+  margin: 0 0 0.8rem;
+  color: #ff9db4;
+  font-size: 0.8rem;
+}
+
+.auth-success {
+  margin: 0 0 0.8rem;
+  color: #9bf5c7;
+  font-size: 0.8rem;
 }
 
 .auth-top-right {

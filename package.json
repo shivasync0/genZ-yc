@@ -4,6 +4,8 @@
   "description": "GenZ YC Startup Incubator - Combined Runner",
   "scripts": {
     "install:all": "cd genz-yc-backend && npm install && cd ../genz-yc-frontend && npm install",
-    "dev": "npx concurrently \"cd genz-yc-backend && npm run start:dev\" \"cd genz-yc-frontend && npm run dev\""
+    "dev": "cd genz-yc-backend && npm run start:dev",
+    "dev:frontend": "cd genz-yc-frontend && npm run dev",
+    "dev:full": "npx concurrently \"cd genz-yc-backend && npm run start:dev\" \"cd genz-yc-frontend && npm run dev\""
   }
 }

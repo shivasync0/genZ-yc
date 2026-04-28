@@ -4,14 +4,69 @@ import { Lock, Mail, Eye, EyeOff, ShieldCheck, ArrowRight } from 'lucide-react';
 import '../styles/AuthPage.css';
 
 const AuthPage = () => {
+  const apiBaseUrl = 'http://localhost:3000';
   const [showPassword, setShowPassword] = useState(false);
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const handleAuthSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setMessage('');
+    setError('');
+    setLoading(true);
+
+    try {
+      const payload = isRegisterMode
+        ? { email, password, username: username.trim() || undefined }
+        : { email, password };
+
+      const response = await fetch(`${apiBaseUrl}/auth/${isRegisterMode ? 'register' : 'login'}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message || 'Authentication failed.');
+      }
+
+      setMessage(data?.message || 'Success.');
+      if (isRegisterMode) {
+        setIsRegisterMode(false);
+        setPassword('');
+      }
+    } catch (authError) {
+      const authMessage = authError instanceof Error ? authError.message : 'Authentication failed.';
+      setError(authMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="auth-wrapper">
       <div className="auth-logo">GenZYC.</div>
       
       <div className="auth-top-right">
-        New to GenZYC? <a href="#">Create account</a>
+        {isRegisterMode ? 'Already have an account?' : 'New to GenZYC?'}{' '}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsRegisterMode(!isRegisterMode);
+            setMessage('');
+            setError('');
+          }}
+        >
+          {isRegisterMode ? 'Sign in' : 'Create account'}
+        </a>
       </div>
 
       {/* Left Side: Cinematic Network */}
@@ -113,15 +168,38 @@ const AuthPage = () => {
             <Lock size={20} />
           </div>
 
-          <h2 className="auth-card-title">Welcome back</h2>
-          <p className="auth-card-subtitle">Log in to your account</p>
+          <h2 className="auth-card-title">{isRegisterMode ? 'Create account' : 'Welcome back'}</h2>
+          <p className="auth-card-subtitle">{isRegisterMode ? 'Start your first sprint' : 'Log in to your account'}</p>
 
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={handleAuthSubmit}>
+            {isRegisterMode && (
+              <div className="auth-input-group">
+                <label className="auth-label">Username (optional)</label>
+                <div className="auth-input-wrap">
+                  <Mail />
+                  <input
+                    type="text"
+                    className="auth-input"
+                    placeholder="founder_handle"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+              </div>
+            )}
+
             <div className="auth-input-group">
               <label className="auth-label">Email address</label>
               <div className="auth-input-wrap">
                 <Mail />
-                <input type="email" className="auth-input" placeholder="you@example.com" />
+                <input
+                  type="email"
+                  className="auth-input"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
             </div>
 
@@ -132,7 +210,10 @@ const AuthPage = () => {
                 <input 
                   type={showPassword ? "text" : "password"} 
                   className="auth-input" 
-                  placeholder="Enter your password" 
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
                 {showPassword ? (
                   <EyeOff className="auth-eye" onClick={() => setShowPassword(false)} />
@@ -142,6 +223,7 @@ const AuthPage = () => {
               </div>
             </div>
 
+            {!isRegisterMode && (
             <div className="auth-options">
               <label className="auth-checkbox">
                 <input type="checkbox" defaultChecked />
@@ -149,9 +231,13 @@ const AuthPage = () => {
               </label>
               <a href="#" className="auth-forgot">Forgot password?</a>
             </div>
+            )}
 
-            <button type="submit" className="auth-btn">
-              Log in <ArrowRight size={18} />
+            {error && <p className="auth-error">{error}</p>}
+            {message && <p className="auth-success">{message}</p>}
+
+            <button type="submit" className="auth-btn" disabled={loading}>
+              {loading ? 'Please wait...' : isRegisterMode ? 'Create account' : 'Log in'} <ArrowRight size={18} />
             </button>
           </form>
 

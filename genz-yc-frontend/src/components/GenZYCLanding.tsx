@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useNavigate } from 'react-router-dom';
 import '../styles/GenZYCLanding.css';
 
 const GenZYCLanding: React.FC = () => {
+  const navigate = useNavigate();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const globalBgRef = useRef<HTMLCanvasElement>(null);
   const curRef = useRef<HTMLDivElement>(null);
@@ -331,7 +333,7 @@ const GenZYCLanding: React.FC = () => {
           <a href="#p4">Sprints</a>
           <a href="#p6">Outcome</a>
         </div>
-        <button className="nav-pill">Get Early Access</button>
+        <button className="nav-pill" onClick={() => navigate('/auth')}>Get Early Access</button>
       </nav>
 
       <div id="scroller" ref={scrollerRef}>
@@ -354,7 +356,7 @@ const GenZYCLanding: React.FC = () => {
               </h1>
               <p className="sr d2">The only platform to match, test, and build<br/>with the right cofounder — before you commit.</p>
               <div className="btn-row sr d3">
-                <button className="btn">Start Trial Sprint</button>
+                <button className="btn" onClick={() => navigate('/auth')}>Start Trial Sprint</button>
                 <button className="btn-ghost">
                   <svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" stroke="rgba(255,255,255,.25)" strokeWidth="1.2" fill="none"/><path d="M10 8.5L15.5 12L10 15.5V8.5Z" fill="rgba(255,255,255,.6)"/></svg>
                   Watch how it works
@@ -611,7 +613,7 @@ const GenZYCLanding: React.FC = () => {
                 <p className="li-item sr d4">✦ Real progress.</p>
               </div>
               <p className="sr d4" style={{ marginTop: '1.4rem', fontSize: '.82rem', color: 'var(--muted)', lineHeight: 1.8, maxWidth: '340px' }}>Stop guessing. Stop wasting months on the wrong person. Match by Minds gives you proof before the commitment.</p>
-              <button className="btn sr d5" style={{ marginTop: '1.8rem' }}>Start Your First Sprint →</button>
+              <button className="btn sr d5" style={{ marginTop: '1.8rem' }} onClick={() => navigate('/auth')}>Start Your First Sprint →</button>
               <p className="sr d6" style={{ marginTop: '.9rem', fontSize: '.66rem', color: 'var(--dim)' }}>Free to start · No credit card required</p>
             </div>
 
