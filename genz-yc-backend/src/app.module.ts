@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
 import { AiScoringService } from './modules/ai-scoring/ai-scoring.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { ChatGateway } from './modules/chat/chat.gateway';
@@ -10,7 +11,7 @@ import { QuizModule } from './modules/quiz/quiz.module';
 
 @Module({
   imports: [PrismaModule, AuthModule, QuizModule],
-  controllers: [],
+  controllers: [AppController],
   providers: [AiScoringService, ChatGateway],
 })
 export class AppModule {}

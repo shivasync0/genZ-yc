@@ -1,0 +1,58 @@
+# GenZ YC Backend Render Deployment Guide
+
+## Step 1: Create a Render Account
+1. Go to https://render.com
+2. Sign up with GitHub (or email)
+3. Create a new Web Service
+
+## Step 2: Connect Your Repository
+- Click "New +" → "Web Service"
+- Connect your GitHub repo
+- Select the repository containing this project
+
+## Step 3: Configure the Service
+**Name:** `genz-yc-backend`
+
+**Root Directory:** `genz-yc-backend` (set this if your repo has multiple folders)
+
+**Build Command:**
+```
+npm install && npm run build
+```
+
+**Start Command:**
+```
+npm run start:prod
+```
+
+**Instance Type:** Free (or upgrade as needed)
+
+**Region:** oregon (or closest to your users)
+
+## Step 4: Add Environment Variables
+In Render dashboard, go to "Environment" and add these variables:
+
+| Key | Value | Notes |
+|-----|-------|-------|
+| `NODE_ENV` | `production` | |
+| `DATABASE_URL` | `postgresql://postgres.wqiihngfmsrubbuasdyo:matchbymind%4009321@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres?pgbouncer=true` | From Supabase (pooled) |
+| `DIRECT_URL` | `postgresql://postgres.wqiihngfmsrubbuasdyo:matchbymind%4009321@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require` | From Supabase (direct) |
+| `JWT_SECRET` | `your-strong-secret-key-here-min-32-chars` | Generate a strong one |
+| `FRONTEND_URL` | `https://your-vercel-frontend.vercel.app` | Update after Vercel deploys |
+
+## Step 5: Deploy
+- Click "Deploy Service"
+- Wait for the build to complete
+- Note the live URL (e.g., `https://genz-yc-backend.onrender.com`)
+
+## Step 6: Update Frontend
+1. Copy the Render backend URL
+2. Go to Vercel dashboard
+3. Update `VITE_API_URL` environment variable to the Render URL
+4. Redeploy the frontend
+
+## Important Notes
+- The `DATABASE_URL` uses connection pooling (port 6543) for the app runtime
+- The `DIRECT_URL` uses direct connection (port 5432) for Prisma migrations
+- Free Render instances spin down after 15 mins of inactivity—upgrade for production
+- WebSockets may need special Render configuration if issues arise

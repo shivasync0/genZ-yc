@@ -5,7 +5,7 @@ import { Lock, Mail, Eye, EyeOff, ShieldCheck, ArrowRight } from 'lucide-react';
 import '../styles/AuthPage.css';
 
 const AuthPage = () => {
-  const apiBaseUrl = 'http://localhost:3000';
+  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isRegisterMode, setIsRegisterMode] = useState(false);
